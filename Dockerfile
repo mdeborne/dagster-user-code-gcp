@@ -21,6 +21,6 @@ COPY --from=builder /opt/dagster/app/requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
 
-COPY dagster_user_code_example/* /opt/dagster/app/
+COPY dagster_user_code_example/ /opt/dagster/app/
 
 CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "3000"]
