@@ -37,7 +37,7 @@ pod_per_op_job = example_graph.to_job(
     name="pod_per_op_job",
     description="""
     Example job that uses the `k8s_job_executor` to run each op in a separate pod.
-        
+
     **NOTE:** this job uses the s3_pickle_io_manager, which requires
     [AWS credentials](https://docs.dagster.io/deployment/guides/aws#using-s3-for-io-management).
     """,

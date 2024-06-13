@@ -6,7 +6,7 @@ ARG POETRY_VERSION=1.8.2
 
 RUN pip install poetry==$POETRY_VERSION poetry-plugin-export
 
-WORKDIR /app
+WORKDIR /opt/dagster/app
 
 COPY pyproject.toml poetry.lock ./
 RUN touch README.md
@@ -15,12 +15,12 @@ RUN poetry export --without-hashes --format=requirements.txt --without dev > req
 
 FROM python:$PYTHON_VERSION-slim-buster as runtime
 
-WORKDIR /app
+WORKDIR /opt/dagster/app
 
-COPY --from=builder /app/requirements.txt requirements.txt
+COPY --from=builder /opt/dagster/app/requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
 
-COPY dagster_user_code_example ./dagster_user_code_example
+COPY dagster_user_code_example/* /opt/dagster/app/
 
 CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "3000"]
