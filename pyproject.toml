@@ -7,7 +7,7 @@ license = "Apache"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "~3.11"
+python = "~3.10"
 dagster = "^1.7.9"
 dagster-aws = "^0.23.9"
 dagster-celery-k8s = "^0.23.9"
