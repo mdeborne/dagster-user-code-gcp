@@ -1,6 +1,9 @@
-ARG PYTHON_VERSION=3.10
+# Base image arguments
+ARG ROOT_IMAGE=580698825394.dkr.ecr.eu-central-1.amazonaws.com/python
+ARG BASE_VERSION=3.9.5-bullseye-20241209_220357@sha256:2bb7b1c4c9b6b7d883f0ee4c92297e20bb9cb8dd00a9eb948cc0a21196f1d30b
 
-FROM python:$PYTHON_VERSION-buster as builder
+# Builder stage
+FROM ${ROOT_IMAGE}:${BASE_VERSION} as builder
 
 ARG POETRY_VERSION=1.8.2
 
@@ -13,7 +16,8 @@ RUN touch README.md
 
 RUN poetry export --without-hashes --format=requirements.txt --without dev > requirements.txt
 
-FROM python:$PYTHON_VERSION-slim-buster as runtime
+# Runtime stage
+FROM ${ROOT_IMAGE}:${BASE_VERSION} as runtime
 
 WORKDIR /opt/dagster/app
 
@@ -23,4 +27,7 @@ RUN pip install -r requirements.txt
 
 COPY dagster_user_code_example/ /opt/dagster/app/
 
-CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "3000"]
+RUN ls -al
+
+CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "3000","--python-file","/opt/dagster/app/example_repo/repo.py"]
+#CMD ["sleep","600"]

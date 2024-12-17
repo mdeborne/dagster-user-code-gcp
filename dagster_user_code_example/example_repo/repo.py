@@ -2,7 +2,7 @@ import os
 from collections import Counter
 
 from dagster import In, config_from_files, file_relative_path, graph, op, repository
-from dagster_aws.s3 import s3_pickle_io_manager, s3_resource
+from dagster_gcp.gcs import gcs_pickle_io_manager, gcs_resource
 from dagster_celery_k8s import celery_k8s_job_executor
 from dagster_k8s import k8s_job_executor
 
@@ -25,8 +25,10 @@ def example_graph():
 example_job = example_graph.to_job(
     name="example_job",
     description="Example job. Use this to test your deployment.",
+    resource_defs={"gcs": gcs_resource, "io_manager": gcs_pickle_io_manager},
     config=config_from_files(
         [
+            file_relative_path(__file__, os.path.join("..", "run_config", "local.yaml")),
             file_relative_path(__file__, os.path.join("..", "run_config", "pipeline.yaml")),
         ]
     ),
@@ -34,14 +36,14 @@ example_job = example_graph.to_job(
 
 
 pod_per_op_job = example_graph.to_job(
-    name="pod_per_op_job",
+    name="gcp_pod_per_op_job",
     description="""
     Example job that uses the `k8s_job_executor` to run each op in a separate pod.
 
-    **NOTE:** this job uses the s3_pickle_io_manager, which requires
+    **NOTE:** this job uses the gcs_pickle_io_manager, which requires
     [AWS credentials](https://docs.dagster.io/deployment/guides/aws#using-s3-for-io-management).
     """,
-    resource_defs={"s3": s3_resource, "io_manager": s3_pickle_io_manager},
+    resource_defs={"gcs": gcs_resource, "io_manager": gcs_pickle_io_manager},
     executor_def=k8s_job_executor,
     config=config_from_files(
         [
@@ -52,17 +54,17 @@ pod_per_op_job = example_graph.to_job(
 )
 
 pod_per_op_celery_job = example_graph.to_job(
-    name="pod_per_op_celery_job",
+    name="gcp_pod_per_op_celery_job",
     description="""
     Example job that uses the `celery_k8s_job_executor` to send ops to Celery workers, which
     launch them in individual pods.
         
-    **NOTE:** this job uses the s3_pickle_io_manager, which
+    **NOTE:** this job uses the gcs_pickle_io_manager, which
     requires [AWS credentials](https://docs.dagster.io/deployment/guides/aws#using-s3-for-io-management).
     It also requires enabling the [CeleryK8sRunLauncher](https://docs.dagster.io/deployment/guides/kubernetes/deploying-with-helm-advanced) in the Helm
     chart.
     """,
-    resource_defs={"s3": s3_resource, "io_manager": s3_pickle_io_manager},
+    resource_defs={"gcs": gcs_resource, "io_manager": gcs_pickle_io_manager},
     executor_def=celery_k8s_job_executor,
     config=config_from_files(
         [
