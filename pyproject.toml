@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dagster-user-code-example"
-version = "0.2.0"
+version = "0.3.0"
 description = ""
 authors = ["Alvaro Santos Andres <alvsanand@gmail.com>"]
 license = "Apache"
@@ -8,23 +8,23 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "~3.9.5"
-dagster = "^1.7.9"
-dagster-gcp= "^0.23.9"
-dagster-celery-k8s = "^0.23.9"
-dagster-celery = "^0.23.9"
-dagster-dbt = "^0.23.9"
-dagster-embedded-elt = "^0.23.9"
-dagster-graphql = "^1.7.9"
-dagster-k8s = "^0.23.9"
-dagster-postgres = "^0.23.9"
-dagster-pyspark = "^0.23.9"
-dagster-spark = "^0.23.9"
-dagster-ssh = "^0.23.9"
+dagster = "1.6.9"
+dagster-gcp= "0.22.9"
+dagster-celery-k8s = "0.22.9"
+dagster-celery = "0.22.9"
+dagster-dbt = "0.22.9"
+dagster-embedded-elt = "0.22.9"
+dagster-graphql = "1.6.9"
+dagster-k8s = "0.22.9"
+dagster-postgres = "0.22.9"
+dagster-pyspark = "0.22.9"
+dagster-spark = "0.22.9"
+dagster-ssh = "0.22.9"
 redis = ">=4.5.2"
 
 
 [tool.poetry.group.dev.dependencies]
-dagster-webserver = "^1.7.9"
+dagster-webserver = "1.6.9"
 
 [build-system]
 requires = ["poetry-core"]
