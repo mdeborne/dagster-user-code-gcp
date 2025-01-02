@@ -1,0 +1,11 @@
+FROM docker.io/dagster/dagster-celery-k8s:1.6.9
+
+# Set working directory
+WORKDIR /opt/custom_run_launcher
+
+# Copy everything in the custom_run_launcher directory to the working directory
+COPY custom_run_launcher /opt/custom_run_launcher
+
+# Install the custom module
+RUN pip install -e /opt/custom_run_launcher
+

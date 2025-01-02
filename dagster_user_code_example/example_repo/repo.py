@@ -75,6 +75,20 @@ pod_per_op_celery_job = example_graph.to_job(
 )
 
 
+pod_per_op_job_custom = example_graph.to_job(
+    name="gcp_pod_custom",
+    description="""
+    Example job that uses the `MultiClusterK8sRunLauncher` to run each op in a separate pod.
+    """,
+    resource_defs={"gcs": gcs_resource, "io_manager": gcs_pickle_io_manager},
+    config=config_from_files(
+        [
+            file_relative_path(__file__, os.path.join("..", "run_config", "custom.yaml")),
+            file_relative_path(__file__, os.path.join("..", "run_config", "pipeline.yaml")),
+        ]
+    ),
+)
+
 @repository
 def example_repo():
-    return [example_job, pod_per_op_job, pod_per_op_celery_job]
+    return [example_job, pod_per_op_job, pod_per_op_celery_job, pod_per_op_job_custom]
