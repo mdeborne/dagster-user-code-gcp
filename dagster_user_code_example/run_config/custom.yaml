@@ -1,0 +1,5 @@
+resources:
+  io_manager:
+    config:
+      gcs_bucket: "d-dagster-logs"
+      gcs_prefix: "dagster-k8s"

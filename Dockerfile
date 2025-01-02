@@ -23,6 +23,8 @@ WORKDIR /opt/dagster/app
 
 COPY --from=builder /opt/dagster/app/requirements.txt requirements.txt
 
+COPY custom_run_launcher /opt/dagster/app/custom_run_launcher
+
 RUN pip install -r requirements.txt
 
 COPY dagster_user_code_example/ /opt/dagster/app/
